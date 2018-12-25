@@ -69,6 +69,31 @@ namespace eudemonCalculator
         }
 
         /// <summary>
+        /// 平方公式逆向
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="a"></param>
+        /// <param name="c"></param>
+        /// <returns>e</returns>
+        public double SquareformulaReverse(double e, double a, double c)
+        {
+            double reality;
+            if (e > 0)
+            {
+                reality = Math.Sqrt(e * 100000 / c) + a;
+                logBox.Items.Add($"({e} * 100000 / {c}) √ + {a}");
+            }
+            else
+            { 
+                reality = Math.Sqrt(Math.Abs(e * 300000 / c)) + a;
+                logBox.Items.Add($"({e} * 300000 / {c}) √ + {a}");
+            }
+
+            return reality;
+        }
+
+
+        /// <summary>
         /// 幸运分公式
         /// </summary>
         /// <param name="reality"></param>
@@ -112,6 +137,37 @@ namespace eudemonCalculator
         }
 
         /// <summary>
+        /// 正比公式逆向
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="a"></param>
+        /// <param name="c"></param>
+        /// <returns>e</returns>
+        public double DirectratioReverse(double e, double a, double c)
+        {
+            double reality;
+            if (e > 0)
+            {
+                reality = e * 1000 / c + a;
+                logBox.Items.Add($"{e} * 1000 / {c} + {a}");
+            }
+            else
+            {
+                if (e < -20)
+                {
+                    e = -20;
+                }
+
+                reality = e * 5000 / c + a;
+                logBox.Items.Add("if(e < -20){e = -20}");
+                logBox.Items.Add($"{e} * 5000 / {c} + {a}");
+            }
+
+            return reality;
+        }
+
+
+        /// <summary>
         /// 1.5次方公式
         /// </summary>
         /// <param name="reality"></param>
@@ -122,15 +178,6 @@ namespace eudemonCalculator
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Reviewed. Suppression is OK here.")]
         public double Power(double reality, double a, double b, double c)
         {
-            // int[] specialId =
-            // {
-            // 107, 907, 142, 942, 152, 952, 186, 986, 293, 693, 202, 602, 212, 612, 203, 603, 213, 613, 204, 604, 214,
-            // 614, 305, 705, 304, 704, 303, 703, 302, 702, 301, 701, 300, 700, 295, 695, 350, 750, 223, 623, 258, 658,
-            // 257, 657, 208, 608, 228, 628, 296, 696, 137, 937, 138, 938
-            // };
-            // var threeId = Convert.ToInt32(eudemonID.Text.Substring(eudemonID.Text.Length - 3));
-            // var exists = ((IList)specialId).Contains(threeId);
-            // return exists ? 1 : 0;
             double e;
             if (reality - a > b - a)
             {
@@ -322,11 +369,20 @@ namespace eudemonCalculator
             if (Life.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始生命值：");
+                logBox.Items.Add("初始生命值因素分：");
                 Life_result.Text =
                     Squareformula(double.Parse(Life.Text), double.Parse(Life_A.Text), double.Parse(Life_C.Text))
                         .ToString(CultureInfo.InvariantCulture);
             }
+            else if (Life_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始生命值实际值：");
+                Life.Text =
+                    SquareformulaReverse(double.Parse(Life_result.Text), double.Parse(Life_A.Text), double.Parse(Life_C.Text))
+                        .ToString(CultureInfo.InvariantCulture);
+            }
+
 
             if (Life_Grow.Text != string.Empty)
             {
@@ -341,12 +397,22 @@ namespace eudemonCalculator
             if (Phyatk_Min.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始最小物理攻击：");
+                logBox.Items.Add("初始最小物理因素分：");
                 Phyatk_Min_result.Text = Squareformula(
                     double.Parse(Phyatk_Min.Text),
                     double.Parse(Phyatk_Min_A.Text),
                     double.Parse(Phyatk_Min_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+            else if (Phyatk_Min_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始最小物理实际值：");
+                Phyatk_Min.Text = SquareformulaReverse(
+                    double.Parse(Phyatk_Min_result.Text),
+                    double.Parse(Phyatk_Min_A.Text),
+                    double.Parse(Phyatk_Min_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+
             if (Phyatk_Min_Grow.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
@@ -360,12 +426,22 @@ namespace eudemonCalculator
             if (Phyatk_Max.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始最大物理攻击：");
+                logBox.Items.Add("初始最大物理攻击因素分：");
                 Phyatk_Max_result.Text = Squareformula(
                     double.Parse(Phyatk_Max.Text),
                     double.Parse(Phyatk_Max_A.Text),
                     double.Parse(Phyatk_Max_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+            else if (Phyatk_Max_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始最大物理攻击实际值：");
+                Phyatk_Max.Text = SquareformulaReverse(
+                    double.Parse(Phyatk_Max_result.Text),
+                    double.Parse(Phyatk_Max_A.Text),
+                    double.Parse(Phyatk_Max_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+
             if (Phyatk_Max_Grow.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
@@ -379,9 +455,18 @@ namespace eudemonCalculator
             if (Phy_Def.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始物理防御：");
+                logBox.Items.Add("初始物理防御因素分：");
                 Phy_Def_result.Text = Squareformula(
                     double.Parse(Phy_Def.Text),
+                    double.Parse(Phy_Def_A.Text),
+                    double.Parse(Phy_Def_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+            else if (Phy_Def_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始物理防御实际值：");
+                Phy_Def.Text = SquareformulaReverse(
+                    double.Parse(Phy_Def_result.Text),
                     double.Parse(Phy_Def_A.Text),
                     double.Parse(Phy_Def_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
@@ -400,9 +485,18 @@ namespace eudemonCalculator
             if (Magatk_Min.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始最小魔法攻击：");
+                logBox.Items.Add("初始最小魔法攻击因素分：");
                 Magatk_Min_result.Text = Squareformula(
                     double.Parse(Magatk_Min.Text),
+                    double.Parse(Magatk_Min_A.Text),
+                    double.Parse(Magatk_Min_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+            else if (Magatk_Min_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始最小魔法攻击实际值：");
+                Magatk_Min.Text = SquareformulaReverse(
+                    double.Parse(Magatk_Min_result.Text),
                     double.Parse(Magatk_Min_A.Text),
                     double.Parse(Magatk_Min_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
@@ -420,12 +514,22 @@ namespace eudemonCalculator
             if (Mgcatk_Max.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始最大魔法攻击：");
+                logBox.Items.Add("初始最大魔法攻击因素分：");
                 Mgcatk_Max_result.Text = Squareformula(
                     double.Parse(Mgcatk_Max.Text),
                     double.Parse(Mgcatk_Max_A.Text),
                     double.Parse(Mgcatk_Max_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+            else if (Mgcatk_Max_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始最大魔法攻击实际值：");
+                Mgcatk_Max.Text = SquareformulaReverse(
+                    double.Parse(Mgcatk_Max_result.Text),
+                    double.Parse(Mgcatk_Max_A.Text),
+                    double.Parse(Mgcatk_Max_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+
             if (Mgcatk_Max_Grow.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
@@ -436,15 +540,26 @@ namespace eudemonCalculator
                     double.Parse(Mgcatk_Max_Grow_B.Text),
                     double.Parse(Mgcatk_Max_Grow_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+
             if (Mgc_Def.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("初始魔法防御：");
+                logBox.Items.Add("初始魔法防御因素分：");
                 Mgc_Def_result.Text = Squareformula(
                     double.Parse(Mgc_Def.Text),
                     double.Parse(Mgc_Def_A.Text),
                     double.Parse(Mgc_Def_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+            else if (Mgc_Def_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("初始魔法防御实际值：");
+                Mgc_Def.Text = SquareformulaReverse(
+                    double.Parse(Mgc_Def_result.Text),
+                    double.Parse(Mgc_Def_A.Text),
+                    double.Parse(Mgc_Def_C.Text)).ToString(CultureInfo.InvariantCulture);
+            }
+
             if (Mgc_Def_Grow.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
@@ -455,28 +570,43 @@ namespace eudemonCalculator
                     double.Parse(Mgc_Def_Grow_B.Text),
                     double.Parse(Mgc_Def_Grow_C.Text)).ToString(CultureInfo.InvariantCulture);
             }
+
             if (Luck.Text != string.Empty)
             {
-                // Luck_result.Text =
-                // LuckValue(double.Parse(Luck.Text), double.Parse(Luck_A.Text), double.Parse(Luck_C.Text))
-                // .ToString(CultureInfo.InvariantCulture);
                 Luck_result.Text = Luck.Text;
             }
+            else if (Luck_result.Text != string.Empty)
+            {
+                Luck.Text = Luck_result.Text;
+            }
+
             if (major_attr.Text != string.Empty)
             {
                 logBox.Items.Add(string.Empty);
-                logBox.Items.Add("超杀值：");
+                logBox.Items.Add("超杀值因素分：");
                 major_attr_result.Text =
-                    Directratio(double.Parse(Luck.Text), double.Parse(major_attr_a.Text), double.Parse(major_attr_c.Text))
+                    Directratio(double.Parse(major_attr.Text), double.Parse(major_attr_a.Text), double.Parse(major_attr_c.Text))
+                        .ToString(CultureInfo.InvariantCulture);
+            }
+            else if (major_attr_result.Text != string.Empty)
+            {
+                logBox.Items.Add(string.Empty);
+                logBox.Items.Add("超杀值实际值：");
+                major_attr.Text =
+                    Directratio(double.Parse(major_attr_result.Text), double.Parse(major_attr_a.Text), double.Parse(major_attr_c.Text))
                         .ToString(CultureInfo.InvariantCulture);
             }
 
-            totalBox.Text = Life_result.Text + Life_Grow_result.Text + Phyatk_Min_result.Text
-                            + Phyatk_Min_Grow_result.Text + Phyatk_Max_result.Text + Phyatk_Max_Grow_result.Text
-                            + Phy_Def_result.Text + Phy_Def_Grow_result.Text + Magatk_Min_result.Text
-                            + Magatk_Min_Grow_result.Text + Mgcatk_Max_result.Text + Mgcatk_Max_Grow_result.Text
-                            + Mgc_Def_result.Text + Mgc_Def_Grow_result.Text + Luck_result.Text + major_attr_result.Text
-                            + minor_attr1_result.Text + minor_attr2_result.Text;
+            //             var total = Convert.ToSingle(Life_result.Text) + Convert.ToSingle(Life_Grow_result.Text)
+            //                         + Convert.ToSingle(Phyatk_Min_result.Text) + Convert.ToSingle(Phyatk_Min_Grow_result.Text)
+            //                         + Convert.ToSingle(Phyatk_Max_result.Text) + Convert.ToSingle(Phyatk_Max_Grow_result.Text)
+            //                         + Convert.ToSingle(Phy_Def_result.Text) + Convert.ToSingle(Phy_Def_Grow_result.Text)
+            //                         + Convert.ToSingle(Magatk_Min_result.Text) + Convert.ToSingle(Magatk_Min_Grow_result.Text)
+            //                         + Convert.ToSingle(Mgcatk_Max_result.Text) + Convert.ToSingle(Mgcatk_Max_Grow_result.Text)
+            //                         + Convert.ToSingle(Mgc_Def_result.Text) + Convert.ToSingle(Mgc_Def_Grow_result.Text)
+            //                         + Convert.ToSingle(Luck_result.Text) + Convert.ToSingle(major_attr_result.Text);
+            // 
+            //             totalBox.Text = total.ToString(CultureInfo.InvariantCulture);
 
             try
             {
@@ -499,12 +629,12 @@ namespace eudemonCalculator
         {
             foreach (Control c in groupBox2.Controls)
             {
-                if (c is TextBox)
-                {
+                if (c is TextBox && c.Enabled)
+                { 
                     c.Text = string.Empty;
                 }
-                totalBox.Text = string.Empty;
             }
+            totalBox.Text = string.Empty;
         }
     }
 }
