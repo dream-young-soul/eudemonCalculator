@@ -158,12 +158,12 @@ namespace eudemonCalculator
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.logBox = new System.Windows.Forms.ListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.totalBox = new System.Windows.Forms.TextBox();
+            this.actualBox = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.factorBox = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.empty = new System.Windows.Forms.Button();
             this.begin = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -1344,9 +1344,9 @@ namespace eudemonCalculator
             this.logBox.Items.AddRange(new object[] {
             "目前1.5次方公式的F参数是写死的",
             "幸运值计算目前游戏是有bug的",
+            "幸运值不参与总和计算",
             "",
-            "目前生命成长率是直接用1.5次方公式",
-            ""});
+            "目前生命成长率是直接用1.5次方公式"});
             this.logBox.Location = new System.Drawing.Point(6, 20);
             this.logBox.Name = "logBox";
             this.logBox.Size = new System.Drawing.Size(309, 532);
@@ -1354,9 +1354,9 @@ namespace eudemonCalculator
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Controls.Add(this.actualBox);
             this.groupBox5.Controls.Add(this.label28);
-            this.groupBox5.Controls.Add(this.totalBox);
+            this.groupBox5.Controls.Add(this.factorBox);
             this.groupBox5.Controls.Add(this.label27);
             this.groupBox5.Controls.Add(this.empty);
             this.groupBox5.Controls.Add(this.begin);
@@ -1367,13 +1367,31 @@ namespace eudemonCalculator
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "结果";
             // 
-            // totalBox
+            // actualBox
             // 
-            this.totalBox.Enabled = false;
-            this.totalBox.Location = new System.Drawing.Point(100, 14);
-            this.totalBox.Name = "totalBox";
-            this.totalBox.Size = new System.Drawing.Size(162, 21);
-            this.totalBox.TabIndex = 3;
+            this.actualBox.Enabled = false;
+            this.actualBox.Location = new System.Drawing.Point(100, 42);
+            this.actualBox.Name = "actualBox";
+            this.actualBox.Size = new System.Drawing.Size(162, 21);
+            this.actualBox.TabIndex = 5;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(17, 45);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(77, 12);
+            this.label28.TabIndex = 4;
+            this.label28.Text = "实际值总和：";
+            // 
+            // factorBox
+            // 
+            this.factorBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.factorBox.Enabled = false;
+            this.factorBox.Location = new System.Drawing.Point(100, 14);
+            this.factorBox.Name = "factorBox";
+            this.factorBox.Size = new System.Drawing.Size(162, 21);
+            this.factorBox.TabIndex = 3;
             // 
             // label27
             // 
@@ -1404,23 +1422,6 @@ namespace eudemonCalculator
             this.begin.UseVisualStyleBackColor = true;
             this.begin.Click += new System.EventHandler(this.begin_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(100, 42);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(162, 21);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(17, 45);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(77, 12);
-            this.label28.TabIndex = 4;
-            this.label28.Text = "实际值总和：";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1433,6 +1434,7 @@ namespace eudemonCalculator
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "幻兽计算器（NDSDK）";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -1572,11 +1574,11 @@ namespace eudemonCalculator
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ListBox logBox;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox totalBox;
+        private System.Windows.Forms.TextBox factorBox;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Button empty;
         private System.Windows.Forms.Button begin;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox actualBox;
         private System.Windows.Forms.Label label28;
     }
 }
